@@ -46,4 +46,8 @@ if __name__ == "__main__":
         if result is not None:
             print(len(result))
         else:
+<<<<<<< HEAD
             print("None")
+=======
+            print("None")
+>>>>>>> 68b8ce230a4d3e06aa135669e86952be8f53256b
