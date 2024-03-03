@@ -1,22 +1,13 @@
 #!/usr/bin/python3
 """
-Script that queries subscribers on a given Reddit subreddit.
+Retrieve the number of subscribers from the external module 0-subs.py
+The retrieved subscriber count is then printed to the console
 """
+import sys
 
-import requests
-
-def number_of_subscribers(subreddit):
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    headers = {'User-Agent': 'MyBot'}
-    
-    try:
-        res = requests.get(url, headers=headers, allow_redirects=False)
-        res.raise_for_status()
-    except requests.exceptions.HTTPError:
-        return 0
-        
-    data = res.json().get('data')
-    if data:
-        return data.get('subscribers', 0)
+if __name__ == '__main__':
+    number_of_subscribers = __import__('0-subs').number_of_subscribers
+    if len(sys.argv) < 2:
+        print("Please pass an argument for the subreddit to search.")
     else:
-        return 0
+        print("{:d}".format(number_of_subscribers(sys.argv[1])))
