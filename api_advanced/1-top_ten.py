@@ -3,15 +3,23 @@
 
 import requests
 
-
 def top_ten(subreddit):
-    """Main function"""
-    URL = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
-
-    HEADERS = {"User-Agent": "PostmanRuntime/7.35.0"}
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+    headers = {'User-Agent': 'MyBot'}
+    
     try:
-        RESPONSE = requests.get(URL, headers=HEADERS, allow_redirects=False)
-        HOT_POSTS = RESPONSE.json().get("data").get("children")
-        [print(post.get('data').get('title')) for post in HOT_POSTS]
-    except Exception:
+        res = requests.get(url, headers=headers, allow_redirects=False)
+        res.raise_for_status()
+    except requests.HTTPError:
         print(None)
+        return
+        
+    data = res.json().get('data')
+    if not data:
+        print(None)
+        return
+        
+    for i, post in enumerate(data['children']):
+        if i == 10:
+            break
+        print(post['data']['title'])
